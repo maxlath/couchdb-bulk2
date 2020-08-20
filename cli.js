@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const split = require('split')
+// Lowest end of the recommended range
+// See https://docs.couchdb.org/en/stable/maintenance/performance.html#network
+const docsPerBulk = 1000
 
 const [ url, file ] = process.argv.slice(2)
 
@@ -45,7 +48,7 @@ inStream
 
     batch.push(line)
 
-    if (batch.length >= 500) {
+    if (batch.length >= docsPerBulk) {
       this.pause()
       await bulkPost(batch)
       batch = []

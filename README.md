@@ -6,7 +6,7 @@ on stdin and POSTing them to the
 endpoint of a CouchDB server.
 
 This is a fork from [couchdb-bulk](https://github.com/jo/couchdb-bulk), with the following modifications:
-* posts 500 docs per bulk request (instead of only 1) when the input is newline-delimited JSON
+* posts 1000 docs per bulk request (instead of only 1) when the input is newline-delimited JSON
 * drops supports for anything else than newline-delimited JSON (1 doc per line), assuming that getting to that data format is the job of another tool, such as [jq](https://stedolan.github.io/jq/)
 * drops supports for the module interface, only the CLI mode remains
 * modernized code and dependencies
