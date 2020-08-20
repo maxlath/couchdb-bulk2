@@ -28,6 +28,7 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "node-fetch": "^2.6.0",
     "split": "^1.0.1"
   },
   "files": [
