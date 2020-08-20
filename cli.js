@@ -7,7 +7,7 @@ const docsPerBulk = 1000
 
 const [ url, file ] = process.argv.slice(2)
 
-if (url == null || !url.startsWith('http')) {
+if (url == null || url === '-h' || url === '--help') {
   console.log(`Usage: \ncouchdb-bulk url [file]'
 
     Notes:
@@ -30,6 +30,11 @@ if (url == null || !url.startsWith('http')) {
   `)
 
   process.exit()
+}
+
+if (!url.startsWith('http')) {
+  console.error('invalid url:', url)
+  process.exit(1)
 }
 
 const inStream = (!process.stdin.isTTY || file === '-' || !file)
