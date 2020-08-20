@@ -1,6 +1,6 @@
 {
   "name": "couchdb-bulk2",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Pipe line-seperated JSON into CouchDB",
   "main": "cli.js",
   "authors": [
