@@ -38,7 +38,7 @@ const inStream = (!process.stdin.isTTY || file === '-' || !file)
 
 const bulkPost = require('./bulk_post')(url)
 
-const batch = []
+let batch = []
 
 inStream
   .pipe(split())
@@ -49,10 +49,15 @@ inStream
     batch.push(line)
 
     if (batch.length >= docsPerBulk) {
-      this.pause()
-      await bulkPost(batch)
-      batch = []
-      this.resume()
+      try {
+        this.pause()
+        await bulkPost(batch)
+        batch = []
+        this.resume()
+      } catch (err) {
+        console.error('bulk error', err)
+        process.exit(1)
+      }
     }
   })
   .on('close', () => bulkPost(batch))
