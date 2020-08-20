@@ -1,7 +1,7 @@
 {
   "name": "couchdb-bulk2",
   "version": "2.0.4",
-  "description": "Pipe line-seperated JSON into CouchDB",
+  "description": "Pipe newline-delimited JSON into CouchDB",
   "main": "cli.js",
   "authors": [
     "Johannes J. Schmidt",
@@ -20,8 +20,8 @@
   "keywords": [
     "couchdb",
     "bulk",
-    "jsonl",
-    "ndjson"
+    "ndjson",
+    "jsonl"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

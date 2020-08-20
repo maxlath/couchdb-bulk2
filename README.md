@@ -1,9 +1,6 @@
 # couchdb-bulk2
 
-This is a little command line tool meant to eat line seperated JSON (CouchDB documents)
-on stdin and POSTing them to the
-[_bulk_docs](http://docs.couchdb.org/en/stable/api/database/bulk-api.html#db-bulk-docs)
-endpoint of a CouchDB server.
+This is a little command line tool meant to eat newline-delimited JSON (CouchDB documents) on stdin and `POST`ing them to the [`_bulk_docs`](http://docs.couchdb.org/en/stable/api/database/bulk-api.html#db-bulk-docs) endpoint of a [CouchDB](https://couchdb.apache.org/) server.
 
 This is a fork from [couchdb-bulk](https://github.com/jo/couchdb-bulk), with the following modifications:
 * posts 1000 docs per bulk request (instead of only 1) when the input is newline-delimited JSON
@@ -33,7 +30,7 @@ cat ./test/fixtures/docs.ndjson | couchdb-bulk2 http://localhost:5984/testdb
 couchdb-bulk2 http://localhost:5984/testdb ./test/fixtures/docs.ndjson
 ```
 
-`couchdb-bulk2` expects the input to be line seperated JSON.
+`couchdb-bulk2` expects the input to be newline-delimited JSON.
 
 See http://jsonlines.org for more info on this format.
 

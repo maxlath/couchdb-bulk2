@@ -17,7 +17,7 @@ if (url == null || url === '-h' || url === '--help') {
       is intended to be used in a command chain like
       cat docs.ndjson | couchdb-bulk
 
-      couchdb-bulk expects input to be line seperated JSON.
+      couchdb-bulk expects input to be newline-delimited JSON.
       See http://jsonlines.org for more info on this format.
 
       Each line should be a single doc:
