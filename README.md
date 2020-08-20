@@ -20,7 +20,7 @@ npm install -g couchdb-bulk2
 ## CLI
 
 ```sh
-couchdb-bulk url [file]
+couchdb-bulk2 url [file]
 ```
 
 The `[file]` argument is optional, if its missing (or if its '-'), input is expected to be piped via stdin
@@ -28,9 +28,9 @@ The `[file]` argument is optional, if its missing (or if its '-'), input is expe
 Example:
 
 ```sh
-cat ./test/fixtures/docs.ndjson | couchdb-bulk http://localhost:5984/testdb
+cat ./test/fixtures/docs.ndjson | couchdb-bulk2 http://localhost:5984/testdb
 // OR
-couchdb-bulk http://localhost:5984/testdb ./test/fixtures/docs.ndjson
+couchdb-bulk2 http://localhost:5984/testdb ./test/fixtures/docs.ndjson
 ```
 
 `couchdb-bulk2` expects the input to be line seperated JSON.
@@ -46,5 +46,5 @@ Each line should be a single doc:
 
 This newline-delimited JSON format can easily be obtained from a JSON document containing an array of docs using a tool such as [`jq`](https://stedolan.github.io/jq/)
 ```sh
-cat view_reponse.json | jq -c '.docs[]' | couchdb-bulk http://localhost:5984/testdb
+cat view_reponse.json | jq -c '.docs[]' | couchdb-bulk2 http://localhost:5984/testdb
 ```
