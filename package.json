@@ -2,7 +2,7 @@
   "name": "couchdb-bulk",
   "version": "0.0.0-development",
   "description": "Pipe line-seperated JSON into CouchDB",
-  "main": "index.js",
+  "main": "cli.js",
   "author": "Johannes J. Schmidt",
   "license": "Apache-2.0",
   "bin": "cli.js",
@@ -18,25 +18,15 @@
     "couchdb"
   ],
   "scripts": {
-    "pretest": "standard",
-    "test": "tap --reporter=spec test/*.js",
-    "travis-deploy-once": "travis-deploy-once",
-    "semantic-release": "semantic-release"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {
-    "standard": "^11.0.0",
-    "tap": "^11.1.1",
-    "travis-deploy-once": "^4.3.4",
-    "semantic-release": "^12.4.1"
-  },
+  "devDependencies": {},
   "dependencies": {
-    "event-stream": "^3.3.4",
-    "minimist": "^1.2.0",
-    "request": "^2.83.0"
+    "split": "^1.0.1"
   },
   "files": [
     "cli.js",
-    "index.js",
+    "bulk_post.js",
     "CHANGELOG.md",
     "README.md"
   ]
