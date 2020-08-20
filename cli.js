@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const split = require('split')
-const minimist = require('minimist')
 
-const options = minimist(process.argv.slice(2))
+const [ url, file ] = process.argv.slice(2)
 
-if (!options._.length) {
+if (url == null || !url.startsWith('http')) {
   console.log(`Usage: \ncouchdb-bulk url [file]'
 
     Notes:
@@ -13,7 +12,7 @@ if (!options._.length) {
       The [file] argument is optional, if its missing (or if its '-'),
       input is expected to be piped via stdin. The tool
       is intended to be used in a command chain like
-      cat docs.jsonl | couchdb-bulk
+      cat docs.ndjson | couchdb-bulk
 
       couchdb-bulk expects input to be line seperated JSON.
       See http://jsonlines.org for more info on this format.
@@ -30,17 +29,9 @@ if (!options._.length) {
   process.exit()
 }
 
-const url = options._[0]
-
-// see https://github.com/nodejs/node/issues/1741#issuecomment-190649817
-if (process.stdout._handle && typeof process.stdout._handle.setBlocking === 'function') {
-  process.stdout._handle.setBlocking(true)
-}
-
-const arg = options._[1]
-const inStream = (!process.stdin.isTTY || arg === '-' || !arg)
+const inStream = (!process.stdin.isTTY || file === '-' || !file)
   ? process.stdin
-  : fs.createReadStream(arg)
+  : fs.createReadStream(file)
 
 const bulkPost = require('./bulk_post')(url)
 
@@ -50,7 +41,7 @@ inStream
   .pipe(split())
   .on('data', async function (line) {
     // weed empty lines
-    if (line.trim() === '') return
+    if (line === '') return
 
     batch.push(line)
 

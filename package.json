@@ -1,21 +1,27 @@
 {
-  "name": "couchdb-bulk",
-  "version": "0.0.0-development",
+  "name": "couchdb-bulk2",
+  "version": "1.0.1",
   "description": "Pipe line-seperated JSON into CouchDB",
   "main": "cli.js",
-  "author": "Johannes J. Schmidt",
+  "authors": [
+    "Johannes J. Schmidt",
+    "maxlath"
+  ],
   "license": "Apache-2.0",
   "bin": "cli.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jo/couchdb-bulk"
+    "url": "https://github.com/maxlath/couchdb-bulk2"
   },
   "bugs": {
-    "url": "https://github.com/jo/couchdb-bulk/issues"
+    "url": "https://github.com/maxlath/couchdb-bulk2/issues"
   },
-  "homepage": "https://github.com/jo/couchdb-bulk",
+  "homepage": "https://github.com/maxlath/couchdb-bulk2",
   "keywords": [
-    "couchdb"
+    "couchdb",
+    "bulk",
+    "jsonl",
+    "ndjson"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,8 +32,6 @@
   },
   "files": [
     "cli.js",
-    "bulk_post.js",
-    "CHANGELOG.md",
-    "README.md"
+    "bulk_post.js"
   ]
 }
