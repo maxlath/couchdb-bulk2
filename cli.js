@@ -56,8 +56,9 @@ inStream
     if (batch.length >= docsPerBulk) {
       try {
         this.pause()
-        await bulkPost(batch)
+        const batchToPost = batch
         batch = []
+        await bulkPost(batchToPost)
         this.resume()
       } catch (err) {
         console.error('bulk error', err)
