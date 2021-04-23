@@ -6,11 +6,8 @@ const { version } = require('./package.json')
 
 program
 .arguments('<url> [file]')
+.option('-l, --batch-length <number>', 'set the number of documents to be sent in bulk to CouchDB per batch (default: 1000)')
 .version(version)
-
-// Lowest end of the recommended range
-// See https://docs.couchdb.org/en/stable/maintenance/performance.html#network
-const docsPerBulk = 1000
 
 program.addHelpText('after', `
 Notes:
@@ -35,6 +32,14 @@ Notes:
 program.parse(process.argv)
 
 const [ url, file ] = program.args
+
+// Lowest end of the recommended range
+// See https://docs.couchdb.org/en/stable/maintenance/performance.html#network
+let docsPerBulk = 1000
+const { batchLength } = program.opts()
+if (batchLength) {
+  docsPerBulk = parseInt(batchLength)
+}
 
 const logErrorAndExit = (errMessage) => {
   console.error(errMessage)
