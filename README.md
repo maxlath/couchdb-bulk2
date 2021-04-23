@@ -48,6 +48,7 @@ cat view_reponse.json | jq -c '.docs[]' | couchdb-bulk2 http://localhost:5984/te
 
 ### Options
 * `-l, --batch-length <number>`: set the number of documents to be sent in bulk to CouchDB per batch (default: 1000)
+* `-s, --sleep <milliseconds>`: defines the amount of time (in milliseconds) to wait once a batch was sent before sending a new one (default: 0)
 
 ## See also
 * `couchdb-bulk2` works great in combinaison with [`ndjson-apply`](https://github.com/maxlath/ndjson-apply): see [data transformation workflow in the Inventaire project](https://github.com/inventaire/inventaire/blob/master/docs/data_transformation.md#data-transformation)

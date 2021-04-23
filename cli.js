@@ -7,6 +7,7 @@ const { version } = require('./package.json')
 program
 .arguments('<url> [file]')
 .option('-l, --batch-length <number>', 'set the number of documents to be sent in bulk to CouchDB per batch (default: 1000)')
+.option('-s, --sleep <milliseconds>', 'defines the amount of time (in milliseconds) to wait once a batch was sent before sending a new one (default: 0)')
 .version(version)
 
 program.addHelpText('after', `
@@ -36,7 +37,7 @@ const [ url, file ] = program.args
 // Lowest end of the recommended range
 // See https://docs.couchdb.org/en/stable/maintenance/performance.html#network
 let docsPerBulk = 1000
-const { batchLength } = program.opts()
+const { batchLength, sleep } = program.opts()
 if (batchLength) {
   docsPerBulk = parseInt(batchLength)
 }
@@ -55,6 +56,8 @@ const inStream = (!process.stdin.isTTY || file === '-' || !file)
 
 const bulkPost = require('./bulk_post')(url)
 
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 let batch = []
 
 inStream
@@ -71,6 +74,7 @@ inStream
         const batchToPost = batch
         batch = []
         await bulkPost(batchToPost)
+        if (sleep) await wait(sleep)
         this.resume()
       } catch (err) {
         console.error('bulk error', err)
