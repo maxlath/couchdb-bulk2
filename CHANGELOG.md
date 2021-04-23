@@ -1,6 +1,9 @@
 # CHANGELOG
 *versions follow [SemVer](http://semver.org)*
 
+## 2.2.0 - 2021-04-23
+* Added a `-s, --sleep <milliseconds>` option
+
 ## 2.1.0 - 2021-04-23
 * Added a `-l, --batch-length <number>` option
 
