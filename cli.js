@@ -1,41 +1,48 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const split = require('split')
+const { program } = require('commander')
+const { version } = require('./package.json')
+
+program
+.arguments('<url> [file]')
+.version(version)
+
 // Lowest end of the recommended range
 // See https://docs.couchdb.org/en/stable/maintenance/performance.html#network
 const docsPerBulk = 1000
 
-const [ url, file ] = process.argv.slice(2)
+program.addHelpText('after', `
+Notes:
 
-if (url == null || url === '-h' || url === '--help') {
-  console.log(`Usage: \ncouchdb-bulk url [file]'
+  The [file] argument is optional, if its missing (or if its '-'),
+  input is expected to be piped via stdin. The tool
+  is intended to be used in a command chain like
+  cat docs.ndjson | couchdb-bulk
 
-    Notes:
+  couchdb-bulk2 expects input to be newline-delimited JSON.
+  See http://jsonlines.org for more info on this format.
 
-      The [file] argument is optional, if its missing (or if its '-'),
-      input is expected to be piped via stdin. The tool
-      is intended to be used in a command chain like
-      cat docs.ndjson | couchdb-bulk
+  Each line should be a single doc:
+  { "_id": "one" }
 
-      couchdb-bulk expects input to be newline-delimited JSON.
-      See http://jsonlines.org for more info on this format.
+  This newline-delimited JSON format can easily be obtained from a JSON document
+  containing an array of docs using a tool such as jq https://stedolan.github.io/jq/
 
-      Each line should be a single doc:
-      { "_id": "one" }
+  cat view_reponse.json | jq -c '.docs[]'
+`)
 
-      This newline-delimited JSON format can easily be obtained from a JSON document
-      containing an array of docs using a tool such as jq https://stedolan.github.io/jq/
+program.parse(process.argv)
 
-      cat view_reponse.json | jq -c '.docs[]'
-  `)
+const [ url, file ] = program.args
 
-  process.exit()
-}
-
-if (!url.startsWith('http')) {
-  console.error('invalid url:', url)
+const logErrorAndExit = (errMessage) => {
+  console.error(errMessage)
   process.exit(1)
 }
+
+if (!url) logErrorAndExit('missing url')
+if (!url.startsWith('http')) logErrorAndExit(`invalid url: ${url}`)
 
 const inStream = (!process.stdin.isTTY || file === '-' || !file)
   ? process.stdin

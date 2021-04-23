@@ -26,8 +26,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {},
   "dependencies": {
+    "commander": "^7.2.0",
     "node-fetch": "^2.6.0",
     "split": "^1.0.1"
   },
