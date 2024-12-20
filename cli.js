@@ -8,8 +8,9 @@ import { version } from './lib/package.js'
 
 program
 .arguments('<url> [file]')
-.option('-l, --batch-length <number>', 'set the number of documents to be sent in bulk to CouchDB per batch (default: 1000)')
-.option('-s, --sleep <milliseconds>', 'defines the amount of time (in milliseconds) to wait once a batch was sent before sending a new one (default: 0)')
+.option('-l, --batch-length <number>', 'Set the number of documents to be sent in bulk to CouchDB per batch (default: 1000)')
+.option('-s, --sleep <milliseconds>', 'Defines the amount of time (in milliseconds) to wait once a batch was sent before sending a new one (default: 0)')
+.option('-q, --quiet', 'Do not log output files and operations statistics')
 .version(version)
 
 program.addHelpText('after', `
@@ -39,7 +40,7 @@ const [ url, file ] = program.args
 // Lowest end of the recommended range
 // See https://docs.couchdb.org/en/stable/maintenance/performance.html#network
 let docsPerBulk = 1000
-const { batchLength, sleep } = program.opts()
+const { batchLength, sleep, quiet } = program.opts()
 if (batchLength) {
   docsPerBulk = parseInt(batchLength)
 }
@@ -85,6 +86,6 @@ inStream
   })
   .on('close', async () => {
     await bulkPost(batch)
-    onClose()
+    onClose({ quiet })
   })
   .on('error', console.error)
