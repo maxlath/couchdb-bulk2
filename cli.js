@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 import { createReadStream } from 'node:fs'
-import { readFile } from 'node:fs/promises'
 import { program } from 'commander'
 import split from 'split'
 import { bulkPostFactory } from './lib/bulk_post.js'
+import { version } from './lib/package.js'
 import { setTimeout } from 'node:timers/promises'
-
-const { version } = JSON.parse(await readFile(new URL('./package.json', import.meta.url)))
 
 program
 .arguments('<url> [file]')
@@ -57,7 +55,8 @@ if (!url.startsWith('http')) logErrorAndExit(`invalid url: ${url}`)
 const inStream = (!process.stdin.isTTY || file === '-' || !file)
   ? process.stdin
   : createReadStream(file)
-const bulkPost = bulkPostFactory(url)
+
+const { bulkPost, onClose } = await bulkPostFactory(url)
 
 let batch = []
 
@@ -84,5 +83,8 @@ inStream
       }
     }
   })
-  .on('close', () => bulkPost(batch))
+  .on('close', async () => {
+    await bulkPost(batch)
+    onClose()
+  })
   .on('error', console.error)

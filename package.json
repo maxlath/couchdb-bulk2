@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "commander": "^7.2.0",
-    "split": "^1.0.1"
+    "split": "^1.0.1",
+    "tiny-chalk": "^3.0.2"
   },
   "files": [
     "cli.js",
