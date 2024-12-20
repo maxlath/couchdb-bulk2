@@ -3,7 +3,7 @@ import { createReadStream } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { program } from 'commander'
 import split from 'split'
-import { bulkPostFactory } from './bulk_post.js'
+import { bulkPostFactory } from './lib/bulk_post.js'
 import { setTimeout } from 'node:timers/promises'
 
 const { version } = JSON.parse(await readFile(new URL('./package.json', import.meta.url)))
