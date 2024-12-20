@@ -9,10 +9,12 @@
     "maxlath"
   ],
   "license": "Apache-2.0",
-  "bin": "cli.js",
+  "bin": {
+    "couchdb-bulk2": "cli.js"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/maxlath/couchdb-bulk2"
+    "url": "git+https://github.com/maxlath/couchdb-bulk2.git"
   },
   "bugs": {
     "url": "https://github.com/maxlath/couchdb-bulk2/issues"
