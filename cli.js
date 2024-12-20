@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import { createReadStream } from 'node:fs'
+import { setTimeout } from 'node:timers/promises'
 import { program } from 'commander'
 import split from 'split'
 import { bulkPostFactory } from './lib/bulk_post.js'
 import { version } from './lib/package.js'
-import { setTimeout } from 'node:timers/promises'
 
 program
 .arguments('<url> [file]')
