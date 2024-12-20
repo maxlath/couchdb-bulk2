@@ -1,6 +1,7 @@
 {
   "name": "couchdb-bulk2",
   "version": "2.2.1",
+  "type": "module",
   "description": "Pipe newline-delimited JSON into CouchDB",
   "main": "cli.js",
   "authors": [
@@ -28,11 +29,13 @@
   },
   "dependencies": {
     "commander": "^7.2.0",
-    "node-fetch": "^2.6.0",
     "split": "^1.0.1"
   },
   "files": [
     "cli.js",
     "bulk_post.js"
-  ]
+  ],
+  "engines": {
+    "node": ">= 18"
+  }
 }

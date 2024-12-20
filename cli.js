@@ -1,8 +1,12 @@
 #!/usr/bin/env node
-const fs = require('fs')
-const split = require('split')
-const { program } = require('commander')
-const { version } = require('./package.json')
+import { createReadStream } from 'node:fs'
+import { readFile } from 'node:fs/promises'
+import { program } from 'commander'
+import split from 'split'
+import { bulkPostFactory } from './bulk_post.js'
+import { setTimeout } from 'node:timers/promises'
+
+const { version } = JSON.parse(await readFile(new URL('./package.json', import.meta.url)))
 
 program
 .arguments('<url> [file]')
@@ -42,7 +46,7 @@ if (batchLength) {
   docsPerBulk = parseInt(batchLength)
 }
 
-const logErrorAndExit = (errMessage) => {
+function logErrorAndExit (errMessage) {
   console.error(errMessage)
   process.exit(1)
 }
@@ -52,11 +56,8 @@ if (!url.startsWith('http')) logErrorAndExit(`invalid url: ${url}`)
 
 const inStream = (!process.stdin.isTTY || file === '-' || !file)
   ? process.stdin
-  : fs.createReadStream(file)
-
-const bulkPost = require('./bulk_post')(url)
-
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
+  : createReadStream(file)
+const bulkPost = bulkPostFactory(url)
 
 let batch = []
 
@@ -74,7 +75,8 @@ inStream
         const batchToPost = batch
         batch = []
         await bulkPost(batchToPost)
-        if (sleep) await wait(sleep)
+        if (sleep) await setTimeout(sleep)
+
         this.resume()
       } catch (err) {
         console.error('bulk error', err)

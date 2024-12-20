@@ -1,14 +1,16 @@
-const fetch = require('node-fetch')
+import { Agent as httpAgent } from 'node:http'
+import { Agent as httpsAgent } from 'node:https'
+
 const headers = {
-  'content-type': 'application/json'
+  'content-type': 'application/json',
 }
 
-module.exports = url => {
+export function bulkPostFactory (url) {
   const protocol = url.split('://')[0]
-  const { Agent } = require(protocol)
+  const Agent = protocol === 'https' ? httpsAgent : httpAgent
   const agent = new Agent({ keepAlive: true })
 
-  return async batch => {
+  return async function bulkPost (batch) {
     if (!batch || batch.length === 0) return
 
     const body = `{ "docs": [ ${batch.join(',')} ] }`
@@ -17,7 +19,7 @@ module.exports = url => {
 
     if (res.status < 400) {
       const resData = JSON.parse(resBody)
-      for (docRes of resData) {
+      for (const docRes of resData) {
         if (docRes.error != null) {
           process.stderr.write(JSON.stringify(docRes) + '\n')
         } else {
