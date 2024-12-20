@@ -3,14 +3,16 @@ import { createReadStream } from 'node:fs'
 import { setTimeout } from 'node:timers/promises'
 import { program } from 'commander'
 import split from 'split'
-import { bulkPostFactory } from './lib/bulk_post.js'
-import { version } from './lib/package.js'
+import { bulkPostFactory, getDefaultOutputDir } from './lib/bulk_post.js'
+import { name, version } from './lib/package.js'
 
 program
+.name(name)
 .arguments('<url> [file]')
-.option('-l, --batch-length <number>', 'Set the number of documents to be sent in bulk to CouchDB per batch (default: 1000)')
-.option('-s, --sleep <milliseconds>', 'Defines the amount of time (in milliseconds) to wait once a batch was sent before sending a new one (default: 0)')
-.option('-q, --quiet', 'Do not log output files and operations statistics')
+.option('-l, --batch-length <number>', 'Set the number of documents to be sent in bulk to CouchDB per batch (Default: 1000)')
+.option('-s, --sleep <milliseconds>', 'Defines the amount of time (in milliseconds) to wait once a batch was sent before sending a new one (Default: 0)')
+.option('-o, --output <path>', `Customize output directory (Default: ${getDefaultOutputDir()})`)
+.option('-q, --quiet', 'Do not log output files and operations statistics (Default: false')
 .version(version)
 
 program.addHelpText('after', `
@@ -40,7 +42,7 @@ const [ url, file ] = program.args
 // Lowest end of the recommended range
 // See https://docs.couchdb.org/en/stable/maintenance/performance.html#network
 let docsPerBulk = 1000
-const { batchLength, sleep, quiet } = program.opts()
+const { batchLength, sleep, quiet, output } = program.opts()
 if (batchLength) {
   docsPerBulk = parseInt(batchLength)
 }
@@ -57,7 +59,7 @@ const inStream = (!process.stdin.isTTY || file === '-' || !file)
   ? process.stdin
   : createReadStream(file)
 
-const { bulkPost, onClose } = await bulkPostFactory(url)
+const { bulkPost, onClose } = await bulkPostFactory({ url, output })
 
 let batch = []
 
