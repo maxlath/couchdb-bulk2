@@ -1,6 +1,12 @@
 # CHANGELOG
 *versions follow [SemVer](http://semver.org)*
 
+## 3.0.0 - 2024-12-20
+* **BREAKING CHANGES**: Converted the code base from CommonJS to ESM. Minimal NodeJS version: >= 14.8
+* **BREAKING CHANGES**: By default, `couchdb-bulk2` now generates files with the bulk operations results, unless the stream, `stdout` or `stder`, is already being redirected to a file
+* Added a `-q, --quiet` option
+* Added a `-o, --output` option
+
 ## 2.2.0 - 2021-04-23
 * Added a `-s, --sleep <milliseconds>` option
 

@@ -25,9 +25,9 @@ The `[file]` argument is optional, if its missing (or if its '-'), input is expe
 Example:
 
 ```sh
-cat ./test/fixtures/docs.ndjson | couchdb-bulk2 http://localhost:5984/testdb
+cat ./test/fixtures/docs.ndjson | couchdb-bulk2 http://username:password@localhost:5984/testdb
 // OR
-couchdb-bulk2 http://localhost:5984/testdb ./test/fixtures/docs.ndjson
+couchdb-bulk2 http://username:password@localhost:5984/testdb ./test/fixtures/docs.ndjson
 ```
 
 `couchdb-bulk2` expects the input to be newline-delimited JSON.
@@ -43,12 +43,19 @@ Each line should be a single doc:
 
 This newline-delimited JSON format can easily be obtained from a JSON document containing an array of docs using a tool such as [`jq`](https://stedolan.github.io/jq/)
 ```sh
-cat view_reponse.json | jq -c '.docs[]' | couchdb-bulk2 http://localhost:5984/testdb
+cat view_reponse.json | jq -c '.docs[]' | couchdb-bulk2 http://username:password@localhost:5984/testdb
+```
+
+By default, `couchdb-bulk2` generates files with the bulk operations results, unless the stream, `stdout` or `stder`, is already being redirected to a file. To override that behavior, you can redirect those streams yourself:
+```sh
+cat view_reponse.json | jq -c '.docs[]' | couchdb-bulk2 http://username:password@localhost:5984/testdb > ./stdout 2> ./stderr
 ```
 
 ### Options
-* `-l, --batch-length <number>`: set the number of documents to be sent in bulk to CouchDB per batch (default: 1000)
-* `-s, --sleep <milliseconds>`: defines the amount of time (in milliseconds) to wait once a batch was sent before sending a new one (default: 0)
+* `-l, --batch-length <number>`: Set the number of documents to be sent in bulk to CouchDB per batch (Default: 1000)
+* `-s, --sleep <milliseconds>`: Defines the amount of time (in milliseconds) to wait once a batch was sent before sending a new one (Default: 0)
+* `-o, --output <path>`: Customize output directory for the stdout or stderr streams that are not already redirected to a file
+* `-q, --quiet`: Do not log output files and operations statistics (Default: false')
 
 ## See also
 * `couchdb-bulk2` works great in combinaison with [`ndjson-apply`](https://github.com/maxlath/ndjson-apply): see [data transformation workflow in the Inventaire project](https://github.com/inventaire/inventaire/blob/master/docs/data_transformation.md#data-transformation)

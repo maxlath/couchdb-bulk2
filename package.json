@@ -38,6 +38,6 @@
     "bulk_post.js"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": ">= 14.8"
   }
 }

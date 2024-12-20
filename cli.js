@@ -11,7 +11,7 @@ program
 .arguments('<url> [file]')
 .option('-l, --batch-length <number>', 'Set the number of documents to be sent in bulk to CouchDB per batch (Default: 1000)')
 .option('-s, --sleep <milliseconds>', 'Defines the amount of time (in milliseconds) to wait once a batch was sent before sending a new one (Default: 0)')
-.option('-o, --output <path>', `Customize output directory (Default: ${getDefaultOutputDir()})`)
+.option('-o, --output <path>', `Customize output directory for the stdout or stderr streams that are not already redirected to a file (Default: ${getDefaultOutputDir()})`)
 .option('-q, --quiet', 'Do not log output files and operations statistics (Default: false')
 .version(version)
 
