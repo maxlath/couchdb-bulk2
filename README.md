@@ -48,7 +48,7 @@ cat view_reponse.json | jq -c '.docs[]' | couchdb-bulk2 http://username:password
 
 By default, `couchdb-bulk2` generates files with the bulk operations results, unless the stream, `stdout` or `stder`, is already being redirected to a file. To override that behavior, you can redirect those streams yourself:
 ```sh
-cat view_reponse.json | jq -c '.docs[]' | couchdb-bulk2 http://username:password@localhost:5984/testdb > ./stdout 2> ./stderr
+cat view_reponse.json | jq -c '.docs[]' | couchdb-bulk2 http://username:password@localhost:5984/testdb > ./update.success 2> ./update.errors
 ```
 
 ### Options
