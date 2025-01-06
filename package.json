@@ -27,7 +27,8 @@
     "jsonl"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublishOnly": "npm test",
+    "test": "mocha ./tests"
   },
   "dependencies": {
     "commander": "^7.2.0",
@@ -41,5 +42,10 @@
   ],
   "engines": {
     "node": ">= 14.8"
+  },
+  "devDependencies": {
+    "config": "^3.3.12",
+    "mocha": "^11.0.1",
+    "should": "^13.2.3"
   }
 }
