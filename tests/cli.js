@@ -1,7 +1,6 @@
 import 'should'
 import config from 'config'
 import { createDb, deleteDb, shellExec, shouldNotBeCalled } from './utils.js'
-import { tmpdir } from 'node:os'
 
 const { testDbNameBase } = config
 const { protocol, hostname, port, username, password } = config.couchdb

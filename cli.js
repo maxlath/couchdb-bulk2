@@ -63,8 +63,9 @@ const { bulkPost, onClose } = await bulkPostFactory({ url, output })
 
 let batch = []
 
-function exit (label, err) {
+async function exit (label, err) {
   console.error(label, err)
+  await onClose({ quiet })
   process.exit(1)
 }
 
@@ -86,7 +87,7 @@ inStream
 
         this.resume()
       } catch (err) {
-        exit('bulk error', err)
+        await exit('bulk error', err)
       }
     }
   })
@@ -94,12 +95,14 @@ inStream
     try {
       await bulkPost(batch)
     } catch (err) {
-      exit('bulk error', err)
+      await exit('bulk error on close', err)
     }
     try {
       await onClose({ quiet })
     } catch (err) {
-      exit('onClose error', err)
+      await exit('onClose error', err)
     }
   })
-  .on('error', console.error)
+  .on('error', async err => {
+    await exit('stream error', err)
+  })
