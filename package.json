@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maxlath/couchdb-bulk2.git"
+    "url": "https://codeberg.org/maxlath/couchdb-bulk2"
   },
   "bugs": {
-    "url": "https://github.com/maxlath/couchdb-bulk2/issues"
+    "url": "https://codeberg.org/maxlath/couchdb-bulk2/issues"
   },
-  "homepage": "https://github.com/maxlath/couchdb-bulk2",
+  "homepage": "https://codeberg.org/maxlath/couchdb-bulk2",
   "keywords": [
     "couchdb",
     "bulk",
